@@ -276,10 +276,21 @@ clean:
 		echo "   🗑️  Deleting BIN files (*.bin)"; \
 		echo "   🗑️  Deleting MAP files (*.map)"; \
 		rm -rf $(BUILD_DIR); \
-		echo "✅ Clean completed successfully!"; \
+		echo "✅ Build directory cleaned successfully!"; \
 	else \
 		echo "ℹ️  Build directory already clean ($(BUILD_DIR) not found)"; \
 	fi
+	@if [ -d "Release" ]; then \
+		echo "📁 Cleaning Release directory artifacts"; \
+		echo "   🗑️  Deleting release HEX files (*.hex)"; \
+		echo "   🗑️  Deleting release BIN files (*.bin)"; \
+		find Release -name "*.hex" -delete 2>/dev/null || true; \
+		find Release -name "*.bin" -delete 2>/dev/null || true; \
+		echo "✅ Release artifacts cleaned (README.md preserved)"; \
+	else \
+		echo "ℹ️  Release directory not found"; \
+	fi
+	@echo "✅ Clean completed successfully!"
 	@echo "===================================================================================="
 
 # Debug build
