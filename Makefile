@@ -112,13 +112,19 @@ BIN = $(BUILD_DIR)/$(PROJECT).bin
 LST = $(BUILD_DIR)/$(PROJECT).lst
 
 # Default target
-all: build-start $(BUILD_DIR) $(HEX) $(BIN) size build-complete
+all: build-start $(BUILD_DIR) $(HEX) $(BIN) size copy-to-release build-complete
 
 # Flash Magic compatible build with ultra-compatible HEX
-flashmagic: build-start $(BUILD_DIR) $(BUILD_DIR)/$(PROJECT)_flashmagic.hex size
+flashmagic: build-start $(BUILD_DIR) $(BUILD_DIR)/$(PROJECT)_flashmagic.hex size copy-flashmagic-to-release
 	@echo "🎯 Flash Magic HEX file ready for Windows!"
 	@echo "📁 File: $(BUILD_DIR)/$(PROJECT)_flashmagic.hex"
 	@echo "💡 This version has maximum Flash Magic compatibility"
+
+# Copy flashmagic artifact to Release
+copy-flashmagic-to-release: $(BUILD_DIR)/$(PROJECT)_flashmagic.hex
+	@mkdir -p Release
+	@cp $(BUILD_DIR)/$(PROJECT)_flashmagic.hex Release/
+	@echo "✅ Flash Magic HEX copied to Release directory"
 
 # Create Flash Magic Compatible HEX (for Flash Magic tool)
 $(BUILD_DIR)/$(PROJECT)_flashmagic.hex: $(ELF)
@@ -151,6 +157,21 @@ build-start:
 	@echo "📂 Source Files: $(words $(SRCS)) files"
 	@echo "📁 Build Dir: $(BUILD_DIR)"
 	@date +"🕐 Build Time: %Y-%m-%d %H:%M:%S"
+	@echo ""
+
+# Copy artifacts to Release directory
+copy-to-release: $(HEX) $(BIN)
+	@echo "===================================================================================="
+	@echo "📦 COPYING ARTIFACTS TO RELEASE"
+	@echo "===================================================================================="
+	@mkdir -p Release
+	@echo "📁 Copying build artifacts to Release directory:"
+	@cp $(HEX) Release/ && echo "   ✅ $(notdir $(HEX)) copied"
+	@cp $(BIN) Release/ && echo "   ✅ $(notdir $(BIN)) copied"
+	@if [ -f "$(BUILD_DIR)/$(PROJECT)_flashmagic.hex" ]; then \
+		cp $(BUILD_DIR)/$(PROJECT)_flashmagic.hex Release/ && echo "   ✅ $(PROJECT)_flashmagic.hex copied"; \
+	fi
+	@echo "📁 Release directory updated with latest artifacts"
 	@echo ""
 
 # Build completion banner  
