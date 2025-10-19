@@ -112,7 +112,8 @@ BIN = $(BUILD_DIR)/$(PROJECT).bin
 LST = $(BUILD_DIR)/$(PROJECT).lst
 
 # Default target
-all: build-start $(BUILD_DIR) $(HEX) $(BIN) size copy-to-release build-complete
+# Main build target
+all: build-start $(BUILD_DIR) $(HEX) $(BIN) flashmagic-file size copy-to-release build-complete
 
 # Flash Magic compatible build with ultra-compatible HEX
 flashmagic: build-start $(BUILD_DIR) $(BUILD_DIR)/$(PROJECT)_flashmagic.hex size copy-flashmagic-to-release
@@ -143,6 +144,9 @@ $(BUILD_DIR)/$(PROJECT)_flashmagic.hex: $(ELF)
 	@echo "   - Interface: None (ISP)"
 	@echo "   - Oscillator: 12000 kHz"
 	@echo ""
+
+# Generate flashmagic file (silent version for all target)
+flashmagic-file: $(BUILD_DIR)/$(PROJECT)_flashmagic.hex
 
 # Build start banner
 build-start:
