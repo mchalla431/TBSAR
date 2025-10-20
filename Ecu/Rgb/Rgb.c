@@ -1,5 +1,5 @@
 #include "Rgb.h"
-#include "../../Mcu/Gpt/Gpt_Config.h"
+#include "Monitor.h"  // For uart_printf
 
 
 void Rgb_Set(int option)
@@ -53,23 +53,41 @@ void Rgb_Set(int option)
 			Gpio1_Pin_Set(2, LOW);    	// Green LED is On
 			Gpio1_Pin_Set(10, LOW);   	// Blue LED is On
 			break;
-
-		case RGB_RED_BLINK:
-			Gpio2_Pin_Set(10, TOGGLE);	// Red LED Blink 
-			Gpio1_Pin_Set(2, HIGH);    	// Green LED is Off
-			Gpio1_Pin_Set(10, HIGH);   	// Blue LED is Off
-			break;
-
-		case RGB_GREEN_BLINK:
-			Gpio2_Pin_Set(10, HIGH);	// Red LED is Off 
-			Gpio1_Pin_Set(2, TOGGLE);  	// Green LED Blink
-			Gpio1_Pin_Set(10, HIGH);   	// Blue LED is Off
-			break;
-
-		case RGB_BLUE_BLINK:
-			Gpio2_Pin_Set(10, HIGH);	// Red LED is Off 
-			Gpio1_Pin_Set(2, HIGH);  	// Green LED is Off
-			Gpio1_Pin_Set(10, TOGGLE);  // Blue LED Blink
-			break;
 	}	
+}
+
+void Rgb_Monitor(int rgb_state)
+{
+    uart_printf("\r\x1b[2K\x1b[37m[RGB Status] ");
+    
+    switch(rgb_state)
+    {
+        case RGB_NONE:
+            uart_printf("\x1b[90m⚫ OFF     \x1b[0m");
+            break;
+        case RGB_RED:
+            uart_printf("\x1b[91m🔴 RED     \x1b[0m");
+            break;
+        case RGB_GREEN:
+            uart_printf("\x1b[92m🟢 GREEN   \x1b[0m");
+            break;
+        case RGB_BLUE:
+            uart_printf("\x1b[94m🔵 BLUE    \x1b[0m");
+            break;
+        case RGB_YELLOW:
+            uart_printf("\x1b[93m🟡 YELLOW  \x1b[0m");
+            break;
+        case RGB_MAGENTA:
+            uart_printf("\x1b[95m🟣 MAGENTA \x1b[0m");
+            break;
+        case RGB_CYAN:
+            uart_printf("\x1b[96m🔵 CYAN    \x1b[0m");
+            break;
+        case RGB_WHITE:
+            uart_printf("\x1b[97m⚪ WHITE   \x1b[0m");
+            break;
+        default:
+            uart_printf("\x1b[91m❌ ERROR   \x1b[0m");
+            break;
+    }
 }

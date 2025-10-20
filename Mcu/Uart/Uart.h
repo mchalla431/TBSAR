@@ -4,9 +4,9 @@
 #include <stdint.h>
 #include "../Sys/lpc11xx.h"
 
-int Uart_Transmit_Buffer_Check(void);
-void Uart_Transmit_Buffer_Write(uint8_t byte);
-int Uart_Receive_Buffer_Check(void);
-uint8_t Uart_Receive_Buffer_Read(void);
+/* UART communication functions */
+void Uart_Byte_Send(uint8_t dat);
+void Uart_String_Send(char *str);
+uint8_t Uart_Byte_Receive(void);
 
 #endif

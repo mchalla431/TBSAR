@@ -1,5 +1,4 @@
 #include "Dac.h"
-#include "../../Mcu/Gpt/Gpt_Config.h"
 
 
 void Dac_Chip_Select(void)

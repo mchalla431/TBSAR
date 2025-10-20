@@ -19,6 +19,8 @@ void Ukey_Center_Clicks_Get(uint8_t *clicks);// Get the clicks by reference vari
 void Ukey_Left_Clicks_Get(uint8_t *clicks);  // Get the clicks by reference variable
 void Ukey_Right_Clicks_Get(uint8_t *clicks); // Get the clicks by reference variable
 
+void Ukeys_Status_Monitor(uint8_t up, uint8_t down, uint8_t left, uint8_t center, uint8_t right); // Monitor button states
+void Ukeys_Clicks_Monitor(uint8_t up_clicks, uint8_t down_clicks, uint8_t left_clicks, uint8_t center_clicks, uint8_t right_clicks); // Monitor click counts
 
 #endif
 

@@ -1,34 +1,39 @@
-#include "../Ecu/Rgb/Rgb.h"
-#include "../Ecu/Rgb/Rgb_Config.h"
+/**
+ * @file main.c
+ * @brief TBSAR Main Application -
+ * @author Murali Challa
+ * @date 2025-10-20
+ * 
+ */
+
+#include "Monitor.h"
+#include "Monitor_Config.h"
 
 /**
- * @brief Software delay function - longer delays for debugging
- * @param delay_count Number of delay loops
+ * @brief Simple software delay function
+ * @param count Number of loops to delay
  */
-void Software_Delay(uint32_t delay_count)
+void Software_Delay(volatile uint32_t count)
 {
-    volatile uint32_t i;
-    for (i = 0; i < delay_count; i++)
-    {
-        __asm("nop"); // No operation - prevents optimization
+    while (count--) {
+        // Simple busy wait loop
+        __asm("nop");
     }
 }
 
-int main(void)
+/**
+ * @brief Main function 
+ */
+int main(void) 
 {
-    // Initialize RGB LED configuration
-    Rgb_Config();
     
-    // Green LED test - blink every 500ms
-    while (1)
+    // Initialize Monitor Communication (UART for printf)
+    Monitor_Config();
+    
+    
+    while (1) 
     {
-        // Turn GREEN LED ON
-        Rgb_Set(RGB_GREEN);
-        Software_Delay(500000);  // 500ms ON
-        
-        // Turn GREEN LED OFF
-        Rgb_Set(RGB_NONE);
-        Software_Delay(500000);  // 500ms OFF
+
     }
     
     return 0;

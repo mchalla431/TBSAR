@@ -27,6 +27,8 @@ SECTIONS
     {
         KEEP(*(.vectors))
         *(.text*)
+        *(.init*)
+        *(.fini*)
         *(.rodata*)
         . = ALIGN(4);
         __etext = .;
@@ -66,6 +68,8 @@ SECTIONS
     {
         __heap_start__ = .;
         __heap_end__ = _stack_start;
+        end = __heap_start__;  /* Provide 'end' symbol for newlib */
+        _end = __heap_start__; /* Alternative name */
     } > RAM
 
     /* CAN message objects in CAN RAM */

@@ -1,0 +1,69 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug LPC11C24 (ULink2)",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/Build/tbsar.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/cmsis-dap.cfg",
+                "target/lpc11xx.cfg"
+            ],
+            "searchDir": [],
+            "openOCDLaunchCommands": [
+                "set WORKAREASIZE 0x2000",
+                "source [find interface/cmsis-dap.cfg]",
+                "source [find target/lpc11xx.cfg]",
+                "adapter speed 1000"
+            ],
+            "swoConfig": {
+                "enabled": false,
+                "cpuFrequency": 48000000,
+                "swoFrequency": 4000000,
+                "source": "probe"
+            },
+            "preLaunchCommands": [
+                "set mem inaccessible-by-default off",
+                "enable-pretty-printing",
+                "set print elements 0"
+            ],
+            "postLaunchCommands": [
+                "monitor arm semihosting enable"
+            ],
+            "showDevDebugOutput": "parsed"
+        },
+        {
+            "name": "Flash LPC11C24 (ULink2)",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/Build/tbsar.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/cmsis-dap.cfg",
+                "target/lpc11xx.cfg"
+            ],
+            "searchDir": [],
+            "openOCDLaunchCommands": [
+                "set WORKAREASIZE 0x2000",
+                "source [find interface/cmsis-dap.cfg]",
+                "source [find target/lpc11xx.cfg]",
+                "adapter speed 1000"
+            ],
+            "preLaunchCommands": [
+                "set mem inaccessible-by-default off"
+            ],
+            "postLaunchCommands": [
+                "load",
+                "monitor reset run",
+                "disconnect",
+                "quit"
+            ],
+            "showDevDebugOutput": "parsed"
+        }
+    ]
+}

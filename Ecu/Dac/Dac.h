@@ -4,7 +4,6 @@
 #include "../../Mcu/Dio/Dio.h"
 #include "../../Mcu/Spi/Spi.h"
 #include "../../Mcu/Sys/Syscon.h"
-#include "../../Mcu/Gpt/Gpt.h"
 
 /* Serial Dac prototype functions */  
 

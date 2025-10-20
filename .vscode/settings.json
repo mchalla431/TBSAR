@@ -1,0 +1,39 @@
+{
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/Mcu/Sys",
+        "${workspaceFolder}/Mcu/Adc",
+        "${workspaceFolder}/Mcu/Can",
+        "${workspaceFolder}/Mcu/Dio",
+        "${workspaceFolder}/Mcu/Gpt",
+        "${workspaceFolder}/Mcu/I2c",
+        "${workspaceFolder}/Mcu/Spi",
+        "${workspaceFolder}/Mcu/Uart",
+        "${workspaceFolder}/Ecu/Buz",
+        "${workspaceFolder}/Ecu/Dac",
+        "${workspaceFolder}/Ecu/Eeprom",
+        "${workspaceFolder}/Ecu/Monitor",
+        "${workspaceFolder}/Ecu/Pwm",
+        "${workspaceFolder}/Ecu/Rgb",
+        "${workspaceFolder}/Ecu/Rotary",
+        "${workspaceFolder}/Ecu/Sensors",
+        "${workspaceFolder}/Ecu/Ukeys"
+    ],
+    "C_Cpp.default.defines": [
+        "LPC11C24",
+        "ARM_MATH_CM0",
+        "__CORTEX_M0"
+    ],
+    "C_Cpp.default.compilerPath": "/usr/bin/arm-none-eabi-gcc",
+    "C_Cpp.default.cStandard": "c99",
+    "C_Cpp.default.intelliSenseMode": "gcc-arm",
+    "serialMonitor.defaultBaudRate": 57600,
+    "serialMonitor.defaultPort": "/dev/ttyUSB0",
+    "files.associations": {
+        "*.h": "c",
+        "*.c": "c"
+    },
+    "cortex-debug.openocdPath": "/usr/bin/openocd",
+    "cortex-debug.armToolchainPath": "/usr/bin",
+    "cortex-debug.gdbPath": "/usr/bin/arm-none-eabi-gdb"
+}
