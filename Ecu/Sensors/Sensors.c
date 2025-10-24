@@ -1,5 +1,6 @@
 #include "Sensors.h"
 #include "../../Mcu/Gpt/Gpt_Config.h"
+#include "../Monitor/Monitor.h"
 
 
 int Sensor_Vpot_Get(void)
@@ -50,5 +51,22 @@ int Sensor_Lm35_Get(void)
 	temp = a2d/3;
 
 	return temp;
+}
+
+void Sensor_Monitor(void)
+{
+	int vpot_mv, temp_c;
+	
+	// Read sensor values
+	vpot_mv = Sensor_Vpot_Get();
+	temp_c = Sensor_Lm35_Get();
+	
+	// Convert voltage to decimal format (e.g., 1650mv = 1.65V)
+	int voltage_int = vpot_mv / 1000;
+	int voltage_dec = (vpot_mv % 1000) / 100;  // One decimal place
+	
+	// Display sensors in single row with steady display and emojis
+	uart_printf("\r\x1b[2K[SENSORS] 🔋:%d.%dV 🌡️:%d°C   ", 
+	           voltage_int, voltage_dec, temp_c);
 }
 

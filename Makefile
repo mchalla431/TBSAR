@@ -9,7 +9,7 @@ MCU = cortex-m0
 CFLAGS = -mcpu=$(MCU) -mthumb -mfloat-abi=soft -O2 -g3 -Wall -std=c99
 LDFLAGS = -mcpu=$(MCU) -mthumb -mfloat-abi=soft -Wl,--gc-sections -specs=nano.specs -Tlpc11c24.ld
 
-INC_DIRS = -I./App -I./Ecu/Rgb -I./Mcu/Adc -I./Mcu/Can -I./Mcu/I2c -I./Mcu/Spi -I./Ecu/Monitor -I./Ecu/Buz -I./Ecu/Dac -I./Ecu/Eeprom -I./Ecu/Pwm -I./Ecu/Rotary -I./Ecu/Sensors -I./Ecu/Ukeys -I./Mcu/Sys -I./Mcu/Dio -I./Mcu/Gpt -I./Mcu/Uart
+INC_DIRS = -I./App -I./Ecu/Rgb -I./Mcu/Adc -I./Mcu/Can -I./Mcu/I2c -I./Mcu/Spi -I./Ecu/Monitor -I./Ecu/Dac -I./Ecu/Eeprom -I./Ecu/Sensors -I./Ecu/Ukeys -I./Mcu/Sys -I./Mcu/Dio -I./Mcu/Gpt -I./Mcu/Uart
 
 SOURCES = App/main.c \
           Ecu/Rgb/Rgb.c Ecu/Rgb/Rgb_Config.c \
@@ -22,11 +22,8 @@ SOURCES = App/main.c \
           Mcu/Uart/Uart.c Mcu/Uart/Uart_Config.c \
           Mcu/Sys/cr_startup_lpc11xx.c Mcu/Sys/system_LPC11xx.c Mcu/Sys/Syscon.c Mcu/Sys/Iocon.c \
           Ecu/Monitor/Monitor.c Ecu/Monitor/Monitor_Config.c \
-          Ecu/Buz/Buz.c Ecu/Buz/Buz_Config.c \
           Ecu/Dac/Dac.c Ecu/Dac/Dac_Config.c \
           Ecu/Eeprom/Eeprom.c Ecu/Eeprom/Eeprom_Config.c \
-          Ecu/Pwm/Pwm.c Ecu/Pwm/Pwm_Config.c \
-          Ecu/Rotary/Rotary.c Ecu/Rotary/Rotary_Config.c \
           Ecu/Sensors/Sensors.c Ecu/Sensors/Sensors_Config.c \
           Ecu/Ukeys/Ukeys.c Ecu/Ukeys/Ukeys_Config.c
 OBJECTS = $(SOURCES:%.c=$(BUILD_DIR)/%.o)
@@ -56,7 +53,7 @@ $(BUILD_DIR)/%.o: %.c
 
 flash: $(BUILD_DIR)/$(TARGET).hex
 	@echo "🚀 Flashing via ISP..."
-	@sudo lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex /dev/ttyUSB1 115200 12000
+	@sudo lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex /dev/ttyUSB0 115200 12000
 	@echo "🚪 Performing simple ISP exit..."
 	@python3 isp.py || echo "⚠️  ISP exit failed, try manual power cycle"
 
