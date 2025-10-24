@@ -31,6 +31,12 @@ void Software_Delay_Ms(volatile uint32_t ms)
     }
 }
 
+void Buz_Config(void)
+{
+    Syscon_Pclk_Iocon_Enable();
+    Iocon_Pio0_8_Set(0, 1, 0, 0, 0, 0);
+}
+
 /**
  * @brief Main function - RGB Green Blink Application
  */
@@ -38,6 +44,8 @@ int main(void)
 {
     // Initialize Monitor Communication (UART for printf)
     Monitor_Config();
+
+   Buz_Config();
 
     // Initialize RGB LED
     Rgb_Config();
