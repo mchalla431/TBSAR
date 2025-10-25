@@ -1,6 +1,6 @@
 #include "Can_Config.h"
 #include "Can.h"
-#include "../Sys/Syscon.h"
+#include "Syscon.h"
 
 
 void Can_Baudrate_Set(int baud)

@@ -2,7 +2,7 @@
 #define __CAN_CONFIG_H__
 
 #include "Can.h"
-#include "../Sys/Syscon.h"
+#include "Syscon.h"
 
 #define CAN_BAUD_100KHZ 1
 #define CAN_BAUD_250KHZ 2

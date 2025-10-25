@@ -4,13 +4,11 @@
  * @author Murali Challa
  * @date 2025-10-23
  * 
- * Simple RGB green LED blinking application.
  */
 
-#include "Monitor.h"
-#include "Monitor_Config.h"
-#include "Rgb.h"
-#include "Rgb_Config.h"
+#include <stdint.h>
+#include "Syscon.h"
+#include "Iocon.h"
 
 /**
  * @brief Software delay function in milliseconds
@@ -31,6 +29,7 @@ void Software_Delay_Ms(volatile uint32_t ms)
     }
 }
 
+
 void Buz_Config(void)
 {
     Syscon_Pclk_Iocon_Enable();
@@ -38,32 +37,19 @@ void Buz_Config(void)
 }
 
 /**
- * @brief Main function - RGB Green Blink Application
+ * @brief Main function - DAC Test Application
  */
 int main(void) 
 {
-    // Initialize Monitor Communication (UART for printf)
-    Monitor_Config();
-
-   Buz_Config();
-
-    // Initialize RGB LED
-    Rgb_Config();
     
-    uart_printf("\r\n🚀 TBSAR RGB Green Blink Application Started!\r\n");
-    
-    // Main RGB green blinking loop
+    // Initialize Buzzer Configuration
+    Buz_Config();
+
+   
     while (1) 
     {
-        // Turn on green LED
-        Rgb_Set(RGB_GREEN);
-        Rgb_Monitor(RGB_GREEN);
-        Software_Delay_Ms(500);  // 500ms delay
         
-        // Turn off green LED
-        Rgb_Set(RGB_NONE);
-        Rgb_Monitor(RGB_NONE);
-        Software_Delay_Ms(500);  // 500ms delay
+        
     }
     
     return 0;

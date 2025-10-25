@@ -2,7 +2,7 @@
 #define __I2C_H__
 
 #include <stdint.h>
-#include "../Sys/lpc11xx.h"
+#include "lpc11xx.h"
 
 
 // I2C Driver function prototypes

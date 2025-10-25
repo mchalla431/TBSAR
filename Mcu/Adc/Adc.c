@@ -1,5 +1,5 @@
 #include "Adc.h"
-#include "../Sys/lpc11xx.h"
+#include "lpc11xx.h"
 
 /* ADC Driver macros */
 

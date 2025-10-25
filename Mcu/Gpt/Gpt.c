@@ -1,5 +1,5 @@
 #include "Gpt.h"
-#include "../Sys/lpc11xx.h"
+#include "lpc11xx.h"
 
 /* GPT1 Base Operation */
 #define GPT1_Init_Count(val)			GPT1_TC = val

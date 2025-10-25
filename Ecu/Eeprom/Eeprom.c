@@ -1,16 +1,27 @@
 #include "Eeprom.h"
-#include "../Monitor/Monitor.h"
+#include "Monitor.h"
+#include "Dio.h"
 
-// EEPROM test data
-static uint8_t test_write_data[8] = {0xAA, 0x55, 0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC};
-static uint8_t test_read_data[8] = {0};
-static uint8_t eeprom_status = 0; // 0: Not tested, 1: OK, 2: Failed
+// --- EEPROM Write Protect Control (PIO2_3) ---
+static inline void Eeprom_Write_Protect_Enable(void) {
+    // PIO2_3 HIGH = Write Protect Enabled (no writes allowed)
+    Gpio2_Pin_Set(3, HIGH);
+}
+
+static inline void Eeprom_Write_Protect_Disable(void) {
+    // PIO2_3 LOW = Write Protect Disabled (writes allowed)
+    Gpio2_Pin_Set(3, LOW);
+}
+
+// Internal inline functions for EEPROM write protection control
+
 
 
 void Eeprom_Bytes_Write(uint8_t adr, uint8_t *buf, int size)
 {
 	int index;
-	
+	Eeprom_Write_Protect_Disable();
+
 // I2c Start
 	I2c_Start_Set();
 	I2c_Status_Wait(); // Wait for Bus ready
@@ -33,6 +44,7 @@ void Eeprom_Bytes_Write(uint8_t adr, uint8_t *buf, int size)
 
 // I2c Stop
 	I2c_Stop_Set();
+	Eeprom_Write_Protect_Enable();
 
 //Note: Check I2c status (Bus condition and slave acknowledgement) in each phase of transaction
 
@@ -82,66 +94,22 @@ void Eeprom_Bytes_Read(uint8_t adr, uint8_t *buf, int size)
 
 }
 
-/**
- * @brief Test EEPROM write functionality
- */
-void Eeprom_Test_Write(void)
-{
-	// Write test pattern to EEPROM address 0x10
-	Eeprom_Bytes_Write(0x10, test_write_data, sizeof(test_write_data));
-	
-	// Small delay for EEPROM write cycle completion
-	for(volatile int i = 0; i < 10000; i++);
-}
-
-/**
- * @brief Test EEPROM read functionality and verify data
- */
-void Eeprom_Test_Read(void)
+void Eeprom_Monitor(uint8_t *buf, int size)
 {
 	int i;
-	uint8_t match = 1;
 	
-	// Read back data from EEPROM address 0x10
-	Eeprom_Bytes_Read(0x10, test_read_data, sizeof(test_read_data));
+	uart_printf("[EEPROM] Data: ");
 	
-	// Compare read data with written data
-	for(i = 0; i < sizeof(test_write_data); i++)
+	for(i = 0; i < size; i++)
 	{
-		if(test_read_data[i] != test_write_data[i])
+		uart_printf("%d", buf[i]);
+		if(i < size - 1)  // Add space after each number except the last one
 		{
-			match = 0;
-			break;
+			uart_printf(" ");
 		}
 	}
 	
-	// Update status
-	eeprom_status = match ? 1 : 2; // 1: OK, 2: Failed
+	uart_printf("\r\n");
 }
 
-/**
- * @brief Monitor EEPROM status and display information
- */
-void Eeprom_Monitor(void)
-{
-	// Perform EEPROM test if not done yet
-	if(eeprom_status == 0)
-	{
-		Eeprom_Test_Write();
-		Eeprom_Test_Read();
-	}
-	
-	// Display EEPROM status with emojis and color coding
-	if(eeprom_status == 1)
-	{
-		uart_printf("\r\x1b[2K[EEPROM] 💾✅ I2C OK - Test Pattern Verified   ");
-	}
-	else if(eeprom_status == 2)
-	{
-		uart_printf("\r\x1b[2K[EEPROM] 💾❌ I2C FAIL - Data Mismatch   ");
-	}
-	else
-	{
-		uart_printf("\r\x1b[2K[EEPROM] 💾⏳ Testing...   ");
-	}
-}
+

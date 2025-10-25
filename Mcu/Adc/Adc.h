@@ -2,7 +2,7 @@
 #define __ADC_H__
 
 #include <stdint.h>
-#include "../Sys/lpc11xx.h"
+#include "lpc11xx.h"
 
 /* ADC Driver Function Prototype Declarations */
 void Adc_Input_Select(int ch);  // 0 to 7

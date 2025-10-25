@@ -1,6 +1,6 @@
 #include "Sensors.h"
-#include "../../Mcu/Gpt/Gpt_Config.h"
-#include "../Monitor/Monitor.h"
+#include "Gpt_Config.h"
+#include "Monitor.h"
 
 
 int Sensor_Vpot_Get(void)

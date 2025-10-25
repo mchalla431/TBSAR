@@ -3,7 +3,7 @@
 
 
 /* Includes Section */
-#include "../Sys/lpc11xx.h"
+#include "lpc11xx.h"
 
 /* Preprocessor labels and Function prototypes */
 

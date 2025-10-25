@@ -2,7 +2,7 @@
 #define _CAN_H_
 
 #include <stdint.h>
-#include "../Sys/lpc11xx.h"
+#include "lpc11xx.h"
 
 
 #define STANDARD_FORMAT  0

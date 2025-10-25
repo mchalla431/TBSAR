@@ -1,7 +1,7 @@
 #ifndef __GPT_H__	
 #define __GPT_H__
 
-#include "../Sys/lpc11xx.h"
+#include "lpc11xx.h"
 
 #define INTERNAL_TIMER		0
 #define EVENT_COUNTER_V1	1 

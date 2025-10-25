@@ -1,8 +1,9 @@
 #ifndef __UKEYS_H__
 #define __UKEYS_H__
 
-#include "../../Mcu/Dio/Dio.h"
-#include "../../Mcu/Gpt/Gpt.h"
+#include "Ukeys.h"
+#include "Dio.h"
+#include "Gpt.h"
 
 #define TOUCH 	1
 #define UNTOUCH 2

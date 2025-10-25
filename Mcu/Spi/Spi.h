@@ -2,7 +2,8 @@
 #define __SPI_H__
 
 #include <stdint.h>
-#include "../Sys/lpc11xx.h"
+#include "Spi.h"
+#include "lpc11xx.h"
 
 /* SPI Driver Function Prototype Declarations */
 

@@ -1,6 +1,6 @@
 #include "Ukeys.h"
-#include "../../Mcu/Gpt/Gpt_Config.h"
-#include "../Monitor/Monitor.h"
+#include "Gpt_Config.h"
+#include "Monitor.h"
 
 
 uint8_t Ukey_Up_State_Get(void)

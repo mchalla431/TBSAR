@@ -2,7 +2,8 @@
 #define __UART_H__
 
 #include <stdint.h>
-#include "../Sys/lpc11xx.h"
+#include "Uart.h"
+#include "lpc11xx.h"
 
 /* UART communication functions */
 void Uart_Byte_Send(uint8_t dat);

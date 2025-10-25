@@ -13,7 +13,7 @@
  * Copyright (c) 2010-2013 Keil - An ARM Company. All rights reserved.
  *----------------------------------------------------------------------------*/
 #include <stdint.h>                   /* Include standard types               */
-#include "../Sys/lpc11xx.h"
+#include "lpc11xx.h"
 #include "Can.h"                                 /* LPC11xx CAN adaption layer */
 
 

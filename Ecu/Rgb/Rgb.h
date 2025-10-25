@@ -1,7 +1,7 @@
 #ifndef __RGB_H__
 #define __RGB_H__
 
-#include "../../Mcu/Dio/Dio.h"
+#include "Dio.h"
 
 #define RGB_NONE 	1
 #define RGB_RED  	2

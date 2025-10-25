@@ -1,7 +1,7 @@
 #ifndef __DIO_H__
 #define __DIO_H__
 
-#include "../Sys/lpc11xx.h"
+#include "lpc11xx.h"
 
 /* GPIO Driver Function Prototype Declarations */
 #define LOW    0
