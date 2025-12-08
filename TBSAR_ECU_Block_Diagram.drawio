@@ -1,0 +1,366 @@
+<mxfile host="app.diagrams.net" modified="2025-11-16T00:00:00.000Z" agent="GitHub Copilot" etag="v1" version="24.7.17" type="device"><mxfile host="app.diagrams.net" agent="5.0" version="24.7.17">
+
+  <diagram name="TBSAR Block Diagram with Scheduler" id="tbsar-block-v1">  <diagram name="TBSAR-ECU-System" id="TBSAR-ECU-System">
+
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+
+      <root>      <root>
+
+        <mxCell id="0" />        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />        <mxCell id="1" parent="0" />
+
+        
+
+        <mxCell id="TITLE" value="TBSAR Block Diagram - Scheduler + Layers" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" vertex="1" parent="1">        <!-- Main MCU Block - Even Larger to Contain Internal Blocks -->
+
+          <mxGeometry x="300" y="20" width="800" height="40" as="geometry" />        <mxCell id="MCU" value="LPC11C24 MCU - ARM Cortex-M0&#xa;48MHz, 32KB Flash, 8KB SRAM" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=4;" vertex="1" parent="1">
+
+        </mxCell>          <mxGeometry x="400" y="250" width="360" height="300" as="geometry" />
+
+        </mxCell>
+
+        <!-- Application Layer -->        
+
+        <mxCell id="APP_BG" value="" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;opacity=30;" vertex="1" parent="1">        <!-- Internal MCU Peripheral Blocks -->
+
+          <mxGeometry x="100" y="100" width="1200" height="140" as="geometry" />        <mxCell id="GPIO_BLOCK" value="GPIO" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+
+        </mxCell>          <mxGeometry x="420" y="290" width="80" height="40" as="geometry" />
+
+        <mxCell id="APP_LABEL" value="Application Layer" style="text;html=1;align=left;fontSize=14;" vertex="1" parent="1">        </mxCell>
+
+          <mxGeometry x="120" y="110" width="200" height="20" as="geometry" />        
+
+        </mxCell>        <mxCell id="ADC_BLOCK" value="ADC" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+
+          <mxGeometry x="420" y="350" width="80" height="40" as="geometry" />
+
+        <mxCell id="SCHED" value="Task Scheduler\n(SysTick @ 10ms)" style="rounded=1;fillColor=#b1ddf0;strokeColor=#10739e;strokeWidth=2;" vertex="1" parent="1">        </mxCell>
+
+          <mxGeometry x="520" y="130" width="260" height="80" as="geometry" />        
+
+        </mxCell>        <mxCell id="UART_BLOCK" value="UART" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+
+          <mxGeometry x="420" y="410" width="80" height="40" as="geometry" />
+
+        <mxCell id="TASKS" value="Tasks: 10/20/50/100 ms" style="rounded=1;fillColor=#cfe2f3;strokeColor=#10739e;" vertex="1" parent="1">        </mxCell>
+
+          <mxGeometry x="240" y="130" width="220" height="80" as="geometry" />        
+
+        </mxCell>        <mxCell id="I2C_BLOCK" value="I2C" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+
+          <mxGeometry x="660" y="320" width="80" height="40" as="geometry" />
+
+        <!-- ECU Layer -->        </mxCell>
+
+        <mxCell id="ECU_BG" value="" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;opacity=30;" vertex="1" parent="1">        
+
+          <mxGeometry x="100" y="280" width="1200" height="180" as="geometry" />        <mxCell id="SPI_BLOCK" value="SPI" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+
+        </mxCell>          <mxGeometry x="660" y="380" width="80" height="40" as="geometry" />
+
+        <mxCell id="ECU_LABEL" value="ECU Layer (Rgb, Sensors, Ukeys, Monitor, Eeprom, Dac)" style="text;html=1;align=left;fontSize=14;" vertex="1" parent="1">        </mxCell>
+
+          <mxGeometry x="120" y="290" width="540" height="20" as="geometry" />        
+
+        </mxCell>        <!-- MCU Core Block -->
+
+        <mxCell id="MCU_CORE" value="ARM&#xa;Cortex-M0&#xa;Core" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;" vertex="1" parent="1">
+
+        <mxCell id="ECU_RGB" value="Rgb Module\n(Rgb_Config, Rgb_Set)" style="rounded=1;fillColor=#b9e0a5;strokeColor=#82b366;" vertex="1" parent="1">          <mxGeometry x="540" y="350" width="80" height="80" as="geometry" />
+
+          <mxGeometry x="200" y="320" width="160" height="80" as="geometry" />        </mxCell>
+
+        </mxCell>        
+
+        <mxCell id="ECU_SENS" value="Sensors Module\n(Adc conversions)" style="rounded=1;fillColor=#b9e0a5;strokeColor=#82b366;" vertex="1" parent="1">        <!-- RGB LED Module -->
+
+          <mxGeometry x="380" y="320" width="160" height="80" as="geometry" />        <mxCell id="RGB" value="RGB LED&#xa;Module" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+
+        </mxCell>          <mxGeometry x="180" y="180" width="120" height="60" as="geometry" />
+
+        <mxCell id="ECU_UKEYS" value="Ukeys Module\n(Key scanning)" style="rounded=1;fillColor=#b9e0a5;strokeColor=#82b366;" vertex="1" parent="1">        </mxCell>
+
+          <mxGeometry x="560" y="320" width="160" height="80" as="geometry" />        
+
+        </mxCell>        <!-- User Keys Module -->
+
+        <mxCell id="ECU_MON" value="Monitor Module\n(Uart printf)" style="rounded=1;fillColor=#b9e0a5;strokeColor=#82b366;" vertex="1" parent="1">        <mxCell id="UKEYS" value="5 User Keys&#xa;Module" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+
+          <mxGeometry x="740" y="320" width="160" height="80" as="geometry" />          <mxGeometry x="180" y="280" width="120" height="60" as="geometry" />
+
+        </mxCell>        </mxCell>
+
+        <mxCell id="ECU_EEPROM" value="Eeprom Module\n(I2C)" style="rounded=1;fillColor=#b9e0a5;strokeColor=#82b366;" vertex="1" parent="1">        
+
+          <mxGeometry x="920" y="320" width="160" height="80" as="geometry" />        <!-- Sensors Module -->
+
+        </mxCell>        <mxCell id="SENSORS" value="ADC Sensors&#xa;VPOT + LM35" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+
+          <mxGeometry x="180" y="380" width="120" height="60" as="geometry" />
+
+        <!-- MCU Layer -->        </mxCell>
+
+        <mxCell id="MCU_BG" value="" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;opacity=30;" vertex="1" parent="1">        
+
+          <mxGeometry x="100" y="480" width="1200" height="220" as="geometry" />        <!-- UART Monitor Module -->
+
+        </mxCell>        <mxCell id="MONITOR" value="UART Monitor&#xa;USB Debug" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+
+        <mxCell id="MCU_LABEL" value="MCU Layer (drivers)" style="text;html=1;align=left;fontSize=14;" vertex="1" parent="1">          <mxGeometry x="180" y="480" width="120" height="60" as="geometry" />
+
+          <mxGeometry x="120" y="490" width="400" height="20" as="geometry" />        </mxCell>
+
+        </mxCell>        
+
+        <!-- EEPROM Module -->
+
+        <mxCell id="MCU_CORE" value="LPC11C24\n(Cortex-M0)" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;" vertex="1" parent="1">        <mxCell id="EEPROM" value="I2C EEPROM&#xa;External Memory" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+
+          <mxGeometry x="520" y="520" width="260" height="120" as="geometry" />          <mxGeometry x="800" y="280" width="120" height="60" as="geometry" />
+
+        </mxCell>        </mxCell>
+
+        
+
+        <mxCell id="DRV_DIO" value="Dio (GPIO)" style="rounded=1;fillColor=#fff9e6;strokeColor=#d6b656;" vertex="1" parent="1">        <!-- DAC Module -->
+
+          <mxGeometry x="200" y="520" width="140" height="60" as="geometry" />        <mxCell id="DAC" value="SPI DAC&#xa;Analog Output" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+
+        </mxCell>          <mxGeometry x="800" y="380" width="120" height="60" as="geometry" />
+
+        <mxCell id="DRV_ADC" value="Adc" style="rounded=1;fillColor=#fff9e6;strokeColor=#d6b656;" vertex="1" parent="1">        </mxCell>
+
+          <mxGeometry x="360" y="520" width="140" height="60" as="geometry" />        
+
+        </mxCell>        <!-- Direct Block Arrow Connections from ECU to MCU Peripherals -->
+
+        <mxCell id="DRV_UART" value="Uart" style="rounded=1;fillColor=#fff9e6;strokeColor=#d6b656;" vertex="1" parent="1">        
+
+          <mxGeometry x="840" y="520" width="140" height="60" as="geometry" />        <!-- RGB LED Connections -->
+
+        </mxCell>        <mxCell id="RGB_CONN" value="P2.10 (Red)&#xa;P1.2 (Green)&#xa;P1.10 (Blue)" style="shape=singleArrow;whiteSpace=wrap;html=1;arrowWidth=0.4;arrowSize=0.4;fontSize=9;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;direction=east;" edge="1" parent="1" source="RGB" target="GPIO_BLOCK">
+
+        <mxCell id="DRV_I2C" value="I2c" style="rounded=1;fillColor=#fff9e6;strokeColor=#d6b656;" vertex="1" parent="1">          <mxGeometry width="120" height="30" relative="1" as="geometry">
+
+          <mxGeometry x="1000" y="520" width="140" height="60" as="geometry" />            <mxPoint x="300" y="210" as="sourcePoint" />
+
+        </mxCell>            <mxPoint x="420" y="310" as="targetPoint" />
+
+        <mxCell id="DRV_SPI" value="Spi" style="rounded=1;fillColor=#fff9e6;strokeColor=#d6b656;" vertex="1" parent="1">            <Array as="points">
+
+          <mxGeometry x="680" y="520" width="140" height="60" as="geometry" />              <mxPoint x="340" y="210" />
+
+        </mxCell>              <mxPoint x="340" y="310" />
+
+            </Array>
+
+        <!-- SysTick and connection -->          </mxGeometry>
+
+        <mxCell id="SYSTICK" value="SysTick\n(System Timer)" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">        </mxCell>
+
+          <mxGeometry x="520" y="660" width="260" height="60" as="geometry" />        
+
+        </mxCell>        <!-- User Keys Connections -->
+
+        <mxCell id="UKEYS_CONN" value="P0.3, P1.4&#xa;P2.6, P2.7, P2.8" style="shape=singleArrow;whiteSpace=wrap;html=1;arrowWidth=0.4;arrowSize=0.4;fontSize=9;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;direction=east;" edge="1" parent="1" source="UKEYS" target="GPIO_BLOCK">
+
+        <!-- links -->          <mxGeometry width="120" height="30" relative="1" as="geometry">
+
+        <mxCell id="SCHED_TO_ECU" value="" edge="1" parent="1" source="SCHED" target="ECU_RGB" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#10739e;strokeWidth=2;"/>            <mxPoint x="300" y="310" as="sourcePoint" />
+
+        <mxCell id="SCHED_TO_TASKS" value="" edge="1" parent="1" source="SCHED" target="TASKS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#10739e;strokeWidth=2;"/>            <mxPoint x="420" y="310" as="targetPoint" />
+
+            <Array as="points">
+
+        <mxCell id="ECU_RGB_TO_DIO" value="" edge="1" parent="1" source="ECU_RGB" target="DRV_DIO" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#82b366;strokeWidth=2;"/>              <mxPoint x="360" y="310" />
+
+        <mxCell id="ECU_SENS_TO_ADC" value="" edge="1" parent="1" source="ECU_SENS" target="DRV_ADC" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#82b366;strokeWidth=2;"/>            </Array>
+
+        <mxCell id="ECU_MON_TO_UART" value="" edge="1" parent="1" source="ECU_MON" target="DRV_UART" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#82b366;strokeWidth=2;"/>          </mxGeometry>
+
+        <mxCell id="ECU_EEPROM_TO_I2C" value="" edge="1" parent="1" source="ECU_EEPROM" target="DRV_I2C" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#82b366;strokeWidth=2;"/>        </mxCell>
+
+        <mxCell id="ECU_DAC_TO_SPI" value="" edge="1" parent="1" source="DAC" target="DRV_SPI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#82b366;strokeWidth=2;"/>        
+
+        <!-- Sensors Connections -->
+
+        <!-- Info box -->        <mxCell id="SENSORS_CONN" value="P0.11 (VPOT)&#xa;P1.0 (LM35)" style="shape=singleArrow;whiteSpace=wrap;html=1;arrowWidth=0.4;arrowSize=0.4;fontSize=9;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;direction=east;" edge="1" parent="1" source="SENSORS" target="ADC_BLOCK">
+
+        <mxCell id="INFO" value="App: Scheduler-driven tasks (10ms base)\nTask: RGB toggle @100ms (App/main.c)\nBuild: 7668 bytes Flash, 584 bytes RAM" style="rounded=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;verticalAlign=top;fontSize=11;" vertex="1" parent="1">          <mxGeometry width="120" height="30" relative="1" as="geometry">
+
+          <mxGeometry x="980" y="680" width="260" height="120" as="geometry" />            <mxPoint x="300" y="410" as="sourcePoint" />
+
+        </mxCell>            <mxPoint x="420" y="370" as="targetPoint" />
+
+            <Array as="points">
+
+      </root>              <mxPoint x="340" y="410" />
+
+    </mxGraphModel>              <mxPoint x="340" y="370" />
+
+  </diagram>            </Array>
+
+</mxfile>          </mxGeometry>
+        </mxCell>
+        
+        <!-- UART Monitor Connections -->
+        <mxCell id="MONITOR_CONN" value="P1.6 (RXD)&#xa;P1.7 (TXD)&#xa;57600 baud" style="shape=doubleArrow;whiteSpace=wrap;html=1;arrowWidth=0.4;arrowSize=0.4;fontSize=9;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;direction=east;" edge="1" parent="1" source="MONITOR" target="UART_BLOCK">
+          <mxGeometry width="120" height="30" relative="1" as="geometry">
+            <mxPoint x="300" y="510" as="sourcePoint" />
+            <mxPoint x="420" y="430" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="340" y="510" />
+              <mxPoint x="340" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- EEPROM Connections -->
+        <mxCell id="EEPROM_CONN" value="P0.4 (SCL)&#xa;P0.5 (SDA)&#xa;400kHz" style="shape=doubleArrow;whiteSpace=wrap;html=1;arrowWidth=0.4;arrowSize=0.4;fontSize=9;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;direction=west;" edge="1" parent="1" source="I2C_BLOCK" target="EEPROM">
+          <mxGeometry width="120" height="30" relative="1" as="geometry">
+            <mxPoint x="740" y="340" as="sourcePoint" />
+            <mxPoint x="800" y="310" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="820" y="340" />
+              <mxPoint x="820" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- DAC Connections -->
+        <mxCell id="DAC_CONN" value="P2.11 (SCK)&#xa;P0.9 (MOSI)&#xa;P0.2 (CS), 1MHz" style="shape=singleArrow;whiteSpace=wrap;html=1;arrowWidth=0.4;arrowSize=0.4;fontSize=9;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;direction=west;" edge="1" parent="1" source="SPI_BLOCK" target="DAC">
+          <mxGeometry width="120" height="30" relative="1" as="geometry">
+            <mxPoint x="740" y="400" as="sourcePoint" />
+            <mxPoint x="800" y="410" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="820" y="400" />
+              <mxPoint x="820" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Connection Lines - Perfectly Aligned -->
+        
+        <!-- RGB LED Connections -->
+        <mxCell id="RGB_CONN" value="P2.10 (Red)&#xa;P1.2 (Green)&#xa;P1.10 (Blue)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="RGB" target="GPIO_BLOCK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="210" />
+              <mxPoint x="260" y="325" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- User Keys Connections -->
+        <mxCell id="UKEYS_CONN" value="P0.3, P1.4&#xa;P2.6, P2.7, P2.8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="UKEYS" target="GPIO_BLOCK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="310" />
+              <mxPoint x="260" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Sensors Connections -->
+        <mxCell id="SENSORS_CONN" value="P0.11 (VPOT)&#xa;P1.0 (LM35)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="SENSORS" target="ADC_BLOCK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="410" />
+              <mxPoint x="260" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- UART Monitor Connections -->
+        <mxCell id="MONITOR_CONN" value="P1.6 (RXD)&#xa;P1.7 (TXD)&#xa;57600 baud" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="MONITOR" target="UART_BLOCK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="510" />
+              <mxPoint x="260" y="465" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- EEPROM Connections -->
+        <mxCell id="EEPROM_CONN" value="P0.4 (SCL)&#xa;P0.5 (SDA)&#xa;400kHz" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="EEPROM" target="I2C_BLOCK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="310" />
+              <mxPoint x="900" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- DAC Connections -->
+        <mxCell id="DAC_CONN" value="P2.11 (SCK)&#xa;P0.9 (MOSI)&#xa;P0.2 (CS), 1MHz" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontSize=9;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="DAC" target="SPI_BLOCK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="410" />
+              <mxPoint x="900" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Internal MCU Bus Connections -->
+        <mxCell id="GPIO_TO_CORE" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="GPIO_BLOCK" target="MCU_CORE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ADC_TO_CORE" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="ADC_BLOCK" target="MCU_CORE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="UART_TO_CORE" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="UART_BLOCK" target="MCU_CORE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="I2C_TO_CORE" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="I2C_BLOCK" target="MCU_CORE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="SPI_TO_CORE" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="SPI_BLOCK" target="MCU_CORE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Title -->
+        <mxCell id="TITLE" value="TBSAR ECU Layer Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="100" width="280" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend - Updated -->
+        <mxCell id="LEGEND_TITLE" value="Legend:" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="600" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="LEGEND_ECU" value="ECU Modules" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="50" y="630" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="LEGEND_MCU_MAIN" value="MCU Core" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="150" y="630" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="LEGEND_PERIPH" value="MCU&#xa;Peripherals" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="250" y="630" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="LEGEND_ARROWS" value="Data Flow" style="shape=singleArrow;whiteSpace=wrap;html=1;arrowWidth=0.4;arrowSize=0.4;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;direction=east;" vertex="1" parent="1">
+          <mxGeometry x="350" y="630" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Current Application Note -->
+        <mxCell id="APP_NOTE" value="Current Application:&#xa;RGB Green LED Blink&#xa;500ms intervals" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fontStyle=2;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="50" y="180" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Module Count - Updated -->
+        <mxCell id="MODULE_COUNT" value="ECU Modules: 6&#xa;MCU Peripherals: 5&#xa;System Memory: 8.3KB" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="800" y="580" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

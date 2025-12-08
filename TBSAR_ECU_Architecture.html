@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TBSAR Three-Layer Architecture with Task Scheduler</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: white;
+        }
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .layer {
+            border: 3px solid;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+        .app-layer {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+        .ecu-layer {
+            background: #dcfce7;
+            border-color: #22c55e;
+        }
+        .mcu-layer {
+            background: #fef3c7;
+            border-color: #eab308;
+        }
+        .layer-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+        .modules {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .module {
+            border: 2px solid;
+            border-radius: 8px;
+            padding: 12px 16px;
+            min-width: 180px;
+            background: white;
+        }
+        .module-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .module-desc {
+            font-size: 12px;
+            color: #64748b;
+        }
+        .scheduler {
+            border-color: #0ea5e9;
+            background: #e0f2fe;
+        }
+        .task {
+            border-color: #06b6d4;
+            background: #cffafe;
+        }
+        .ecu-module {
+            border-color: #22c55e;
+        }
+        .mcu-module {
+            border-color: #eab308;
+        }
+        .info-box {
+            border: 2px solid #64748b;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 25px;
+            background: #f8fafc;
+            page-break-inside: avoid;
+        }
+        .info-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .flow {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            page-break-inside: avoid;
+        }
+        .flow-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .flow-step {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        .systick {
+            border: 2px solid #ef4444;
+            background: #fee2e2;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        .hw-box {
+            border: 2px solid #64748b;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>TBSAR Three-Layer Architecture with Task Scheduler</h1>
+    
+    <!-- Application Layer -->
+    <div class="layer app-layer">
+        <div class="layer-title">APPLICATION LAYER</div>
+        <div class="modules">
+            <div class="module scheduler">
+                <div class="module-name">Task Scheduler</div>
+                <div class="module-desc">SysTick @ 10ms base tick</div>
+                <div class="module-desc">Files: App/Scheduler.c/h</div>
+            </div>
+            <div class="module task">
+                <div class="module-name">Task_10ms</div>
+                <div class="module-desc">Executes every 10ms</div>
+            </div>
+            <div class="module task">
+                <div class="module-name">Task_20ms</div>
+                <div class="module-desc">Executes every 20ms</div>
+            </div>
+            <div class="module task">
+                <div class="module-name">Task_50ms</div>
+                <div class="module-desc">Executes every 50ms</div>
+            </div>
+            <div class="module task">
+                <div class="module-name">Task_100ms</div>
+                <div class="module-desc">RGB LED toggle (Red @ 100ms)</div>
+            </div>
+            <div class="module task">
+                <div class="module-name">main.c</div>
+                <div class="module-desc">Application entry point</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="systick">↕ SysTick Interrupt (10ms periodic timer)</div>
+
+    <!-- ECU Layer -->
+    <div class="layer ecu-layer">
+        <div class="layer-title">ECU LAYER (Feature Modules)</div>
+        <div class="modules">
+            <div class="module ecu-module">
+                <div class="module-name">Dac Module</div>
+                <div class="module-desc">SPI DAC control</div>
+                <div class="module-desc">Files: Ecu/Dac/</div>
+            </div>
+            <div class="module ecu-module">
+                <div class="module-name">Eeprom Module</div>
+                <div class="module-desc">I2C external memory</div>
+                <div class="module-desc">Files: Ecu/Eeprom/</div>
+            </div>
+            <div class="module ecu-module">
+                <div class="module-name">Monitor Module</div>
+                <div class="module-desc">UART debug printf</div>
+                <div class="module-desc">uart_printf() @ 57600 baud</div>
+            </div>
+            <div class="module ecu-module">
+                <div class="module-name">Rgb Module</div>
+                <div class="module-desc">RGB LED control</div>
+                <div class="module-desc">Rgb_Config(), Rgb_Set()</div>
+            </div>
+            <div class="module ecu-module">
+                <div class="module-name">Sensors Module</div>
+                <div class="module-desc">ADC + conversions</div>
+                <div class="module-desc">LM35 temp, VPOT voltage</div>
+            </div>
+            <div class="module ecu-module">
+                <div class="module-name">Ukeys Module</div>
+                <div class="module-desc">5 User Keys scanning</div>
+                <div class="module-desc">Files: Ecu/Ukeys/</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MCU Layer -->
+    <div class="layer mcu-layer">
+        <div class="layer-title">MCU LAYER (Hardware Drivers)</div>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="display: inline-block; border: 3px solid #d97706; background: #fed7aa; padding: 15px 30px; border-radius: 10px;">
+                <div style="font-weight: bold; font-size: 16px;">LPC11C24 MCU</div>
+                <div>ARM Cortex-M0 @ 48MHz</div>
+                <div>32KB Flash, 8KB SRAM</div>
+            </div>
+        </div>
+        <div class="modules">
+            <div class="module mcu-module">
+                <div class="module-name">Adc Driver</div>
+                <div class="module-desc">10-bit ADC</div>
+                <div class="module-desc">Files: Mcu/Adc/</div>
+            </div>
+            <div class="module mcu-module">
+                <div class="module-name">Can Driver</div>
+                <div class="module-desc">CAN bus</div>
+                <div class="module-desc">Files: Mcu/Can/</div>
+            </div>
+            <div class="module mcu-module">
+                <div class="module-name">Dio Driver</div>
+                <div class="module-desc">GPIO control</div>
+                <div class="module-desc">Files: Mcu/Dio/</div>
+            </div>
+            <div class="module mcu-module">
+                <div class="module-name">Gpt Driver</div>
+                <div class="module-desc">Timer/PWM driver</div>
+                <div class="module-desc">Files: Mcu/Gpt/</div>
+            </div>
+            <div class="module mcu-module">
+                <div class="module-name">I2c Driver</div>
+                <div class="module-desc">I2C @ 400kHz</div>
+                <div class="module-desc">Files: Mcu/I2c/</div>
+            </div>
+            <div class="module mcu-module">
+                <div class="module-name">Spi Driver</div>
+                <div class="module-desc">SPI @ 1MHz</div>
+                <div class="module-desc">Files: Mcu/Spi/</div>
+            </div>
+            <div class="module mcu-module">
+                <div class="module-name">Uart Driver</div>
+                <div class="module-desc">UART @ 57600 baud</div>
+                <div class="module-desc">Files: Mcu/Uart/</div>
+            </div>
+            <div class="module mcu-module" style="border-color: #ef4444; background: #fee2e2;">
+                <div class="module-name">SysTick</div>
+                <div class="module-desc">System timer (10ms)</div>
+                <div class="module-desc">Triggers scheduler</div>
+            </div>
+            <div class="module mcu-module">
+                <div class="module-name">Sys</div>
+                <div class="module-desc">Startup, Clock, Syscon</div>
+                <div class="module-desc">Files: Mcu/Sys/</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hw-box">
+        <div style="font-weight: bold; margin-bottom: 10px; font-size: 16px;">HARDWARE</div>
+        <div>RGB LED • 5 User Keys • LM35 Temperature Sensor • I2C EEPROM • SPI DAC</div>
+    </div>
+
+    <div class="info-box">
+        <div class="info-title">Current Application</div>
+        <div><strong>Task Scheduler with RGB Red LED blink @ 100ms</strong></div>
+        <div style="margin-top: 10px;">
+            <div>Build: 7668 bytes Flash (23.6%), 584 bytes RAM (7.1%)</div>
+            <div>Toolchain: arm-none-eabi-gcc with -O2 optimization</div>
+            <div>Programming: lpc21isp @ 57600 baud</div>
+        </div>
+    </div>
+
+    <div class="flow">
+        <div class="flow-title">Architecture Flow:</div>
+        <div class="flow-step">1. SysTick timer generates 10ms interrupts</div>
+        <div class="flow-step">2. Scheduler calls tasks at 10/20/50/100ms periods using countdown timers</div>
+        <div class="flow-step">3. Tasks use ECU modules (Rgb, Sensors, Monitor, etc.)</div>
+        <div class="flow-step">4. ECU modules call MCU drivers (Dio, Adc, Uart, I2c, Spi, etc.)</div>
+        <div class="flow-step">5. MCU drivers access hardware registers to control peripherals</div>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center; color: #64748b; font-size: 12px;">
+        Generated: November 16, 2025 | TBSAR Project | NXP LPC11C24 Embedded System
+    </div>
+</body>
+</html>

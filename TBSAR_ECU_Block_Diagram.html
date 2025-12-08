@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TBSAR Block Diagram - Scheduler and Layers</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: white;
+        }
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .diagram-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .layer-section {
+            border: 3px solid;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+        .app-section {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+        .ecu-section {
+            background: #dcfce7;
+            border-color: #22c55e;
+        }
+        .mcu-section {
+            background: #fef3c7;
+            border-color: #eab308;
+        }
+        .section-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+        .blocks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .block {
+            border: 2px solid;
+            border-radius: 8px;
+            padding: 15px 20px;
+            background: white;
+            min-width: 140px;
+            text-align: center;
+        }
+        .block-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        .block-detail {
+            font-size: 11px;
+            color: #64748b;
+        }
+        .scheduler-block {
+            border-color: #0ea5e9;
+            background: #e0f2fe;
+            min-width: 200px;
+        }
+        .task-block {
+            border-color: #06b6d4;
+            background: #cffafe;
+        }
+        .ecu-block {
+            border-color: #22c55e;
+        }
+        .mcu-block {
+            border-color: #eab308;
+        }
+        .core-block {
+            border: 3px solid #d97706;
+            background: #fed7aa;
+            padding: 20px;
+            min-width: 250px;
+        }
+        .systick-block {
+            border: 2px solid #ef4444;
+            background: #fee2e2;
+        }
+        .connection-note {
+            text-align: center;
+            padding: 10px;
+            margin: 15px 0;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-size: 13px;
+            font-style: italic;
+        }
+        .pin-info {
+            font-size: 10px;
+            color: #475569;
+            margin-top: 5px;
+        }
+        .info-panel {
+            border: 2px solid #64748b;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 25px;
+            background: #f8fafc;
+            page-break-inside: avoid;
+        }
+        .info-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #e2e8f0;
+            font-weight: bold;
+        }
+        .mapping {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>TBSAR Block Diagram - Scheduler and Layers</h1>
+    
+    <div class="diagram-container">
+        
+        <!-- Application Layer -->
+        <div class="layer-section app-section">
+            <div class="section-header">APPLICATION LAYER</div>
+            <div class="blocks">
+                <div class="block task-block">
+                    <div class="block-title">Scheduler_Task10ms()</div>
+                    <div class="block-detail">Every 10ms</div>
+                </div>
+                <div class="block task-block">
+                    <div class="block-title">Scheduler_Task20ms()</div>
+                    <div class="block-detail">Every 20ms</div>
+                </div>
+                <div class="block scheduler-block">
+                    <div class="block-title">Task Scheduler</div>
+                    <div class="block-detail">SysTick @ 10ms base tick</div>
+                    <div class="block-detail" style="margin-top: 5px;">Countdown timer implementation</div>
+                    <div class="block-detail">App/Scheduler.c/h</div>
+                </div>
+                <div class="block task-block">
+                    <div class="block-title">Scheduler_Task50ms()</div>
+                    <div class="block-detail">Every 50ms</div>
+                </div>
+                <div class="block task-block">
+                    <div class="block-title">Scheduler_Task100ms()</div>
+                    <div class="block-detail">Every 100ms</div>
+                    <div class="block-detail" style="margin-top: 3px; font-weight: bold; color: #dc2626;">RGB Red LED Toggle</div>
+                </div>
+            </div>
+            <div class="connection-note">↓ Tasks call ECU modules for features</div>
+        </div>
+
+        <!-- ECU Layer -->
+        <div class="layer-section ecu-section">
+            <div class="section-header">ECU LAYER (Feature Modules)</div>
+            <div class="blocks">
+                <div class="block ecu-block">
+                    <div class="block-title">Rgb</div>
+                    <div class="block-detail">RGB LED Control</div>
+                    <div class="pin-info">P2.10, P1.2, P1.10</div>
+                </div>
+                <div class="block ecu-block">
+                    <div class="block-title">Sensors</div>
+                    <div class="block-detail">ADC + Conversions</div>
+                    <div class="pin-info">LM35, VPOT</div>
+                </div>
+                <div class="block ecu-block">
+                    <div class="block-title">Ukeys</div>
+                    <div class="block-detail">5 User Keys</div>
+                    <div class="pin-info">P0.3, P1.4, P2.6-8</div>
+                </div>
+                <div class="block ecu-block">
+                    <div class="block-title">Monitor</div>
+                    <div class="block-detail">UART Debug Printf</div>
+                    <div class="pin-info">57600 baud</div>
+                </div>
+                <div class="block ecu-block">
+                    <div class="block-title">Eeprom</div>
+                    <div class="block-detail">I2C Memory</div>
+                    <div class="pin-info">400kHz</div>
+                </div>
+                <div class="block ecu-block">
+                    <div class="block-title">Dac</div>
+                    <div class="block-detail">SPI DAC</div>
+                    <div class="pin-info">1MHz</div>
+                </div>
+            </div>
+            <div class="connection-note">↓ ECU modules call MCU drivers</div>
+        </div>
+
+        <!-- MCU Layer -->
+        <div class="layer-section mcu-section">
+            <div class="section-header">MCU LAYER (Hardware Drivers)</div>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div class="block core-block" style="display: inline-block;">
+                    <div class="block-title" style="font-size: 16px;">LPC11C24 MCU</div>
+                    <div class="block-detail" style="font-size: 13px; margin-top: 5px;">ARM Cortex-M0 @ 48MHz</div>
+                    <div class="block-detail">32KB Flash, 8KB SRAM</div>
+                </div>
+            </div>
+            <div class="blocks">
+                <div class="block mcu-block">
+                    <div class="block-title">Dio</div>
+                    <div class="block-detail">GPIO Driver</div>
+                </div>
+                <div class="block mcu-block">
+                    <div class="block-title">Adc</div>
+                    <div class="block-detail">10-bit ADC</div>
+                </div>
+                <div class="block mcu-block">
+                    <div class="block-title">Gpt</div>
+                    <div class="block-detail">Timer/PWM</div>
+                </div>
+                <div class="block mcu-block">
+                    <div class="block-title">Uart</div>
+                    <div class="block-detail">UART Driver</div>
+                </div>
+                <div class="block mcu-block">
+                    <div class="block-title">I2c</div>
+                    <div class="block-detail">I2C Driver</div>
+                </div>
+                <div class="block mcu-block">
+                    <div class="block-title">Spi</div>
+                    <div class="block-detail">SPI Driver</div>
+                </div>
+                <div class="block mcu-block">
+                    <div class="block-title">Can</div>
+                    <div class="block-detail">CAN Driver</div>
+                </div>
+                <div class="block systick-block">
+                    <div class="block-title">SysTick</div>
+                    <div class="block-detail">System Timer</div>
+                    <div class="block-detail" style="margin-top: 3px; font-weight: bold;">10ms periodic IRQ</div>
+                </div>
+            </div>
+            <div class="connection-note">↓ Drivers access hardware registers</div>
+        </div>
+
+        <!-- Hardware Connections Table -->
+        <div class="info-panel">
+            <div class="info-title">Hardware Pin Mappings</div>
+            <table class="mapping">
+                <tr>
+                    <th>Module</th>
+                    <th>MCU Driver</th>
+                    <th>Pins</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td><strong>RGB LED</strong></td>
+                    <td>Dio (GPIO)</td>
+                    <td>P2.10 (Red), P1.2 (Green), P1.10 (Blue)</td>
+                    <td>Active-high output</td>
+                </tr>
+                <tr>
+                    <td><strong>User Keys</strong></td>
+                    <td>Dio (GPIO)</td>
+                    <td>P0.3, P1.4, P2.6, P2.7, P2.8</td>
+                    <td>5 keys with pull-ups</td>
+                </tr>
+                <tr>
+                    <td><strong>Sensors</strong></td>
+                    <td>Adc</td>
+                    <td>P0.11 (VPOT), P1.0 (LM35)</td>
+                    <td>10-bit ADC channels</td>
+                </tr>
+                <tr>
+                    <td><strong>Monitor (UART)</strong></td>
+                    <td>Uart</td>
+                    <td>P1.6 (RXD), P1.7 (TXD)</td>
+                    <td>57600 baud, 8N1</td>
+                </tr>
+                <tr>
+                    <td><strong>EEPROM</strong></td>
+                    <td>I2c</td>
+                    <td>P0.4 (SCL), P0.5 (SDA)</td>
+                    <td>400kHz, 7-bit addressing</td>
+                </tr>
+                <tr>
+                    <td><strong>DAC</strong></td>
+                    <td>Spi</td>
+                    <td>P2.11 (SCK), P0.9 (MOSI), P0.2 (CS)</td>
+                    <td>1MHz SPI clock</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Application Info -->
+        <div class="info-panel">
+            <div class="info-title">Current Application: Task Scheduler with RGB LED</div>
+            <div style="margin-top: 10px;">
+                <div><strong>Scheduler Implementation:</strong></div>
+                <div style="margin-left: 20px; margin-top: 5px;">
+                    • Base tick: 10ms (configured via SysTick_Config())<br>
+                    • Task periods: 10ms, 20ms, 50ms, 100ms<br>
+                    • Implementation: Countdown timers in SysTick_Handler()<br>
+                    • Files: App/Scheduler.c, App/Scheduler.h<br>
+                    • Current task: RGB Red LED toggle every 100ms (Scheduler_Task100ms)
+                </div>
+                <div style="margin-top: 15px;"><strong>Build Information:</strong></div>
+                <div style="margin-left: 20px; margin-top: 5px;">
+                    • Flash usage: 7668 bytes (23.6% of 32KB)<br>
+                    • RAM usage: 584 bytes (7.1% of 8KB)<br>
+                    • Toolchain: arm-none-eabi-gcc with -O2 optimization<br>
+                    • Programming: lpc21isp via UART @ 57600 baud<br>
+                    • MCU: NXP LPC11C24 (ARM Cortex-M0 @ 48MHz)
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheduler Flow -->
+        <div class="info-panel">
+            <div class="info-title">Scheduler Execution Flow</div>
+            <div style="margin-top: 10px;">
+                <div><strong>1. SysTick Interrupt (every 10ms):</strong></div>
+                <div style="margin-left: 20px; font-size: 12px;">
+                    • Hardware timer generates periodic interrupt<br>
+                    • SysTick_Handler() in App/Scheduler.c is called<br>
+                    • Countdown timers are decremented
+                </div>
+                <div style="margin-top: 10px;"><strong>2. Task Execution:</strong></div>
+                <div style="margin-left: 20px; font-size: 12px;">
+                    • When a task counter reaches zero, corresponding task is called<br>
+                    • Task_10ms: counter = 1 (runs every 10ms)<br>
+                    • Task_20ms: counter = 2 (runs every 20ms)<br>
+                    • Task_50ms: counter = 5 (runs every 50ms)<br>
+                    • Task_100ms: counter = 10 (runs every 100ms, toggles RGB LED)
+                </div>
+                <div style="margin-top: 10px;"><strong>3. Module Access:</strong></div>
+                <div style="margin-left: 20px; font-size: 12px;">
+                    • Tasks call ECU modules (e.g., Rgb_Set(RGB_RED))<br>
+                    • ECU modules call MCU drivers (e.g., Dio pin control)<br>
+                    • Drivers write to hardware registers<br>
+                    • Hardware peripherals respond
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="margin-top: 30px; text-align: center; color: #64748b; font-size: 12px;">
+        Generated: November 16, 2025 | TBSAR Project | Three-Layer Embedded Architecture
+    </div>
+</body>
+</html>
