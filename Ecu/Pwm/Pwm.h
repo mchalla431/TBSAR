@@ -6,11 +6,10 @@
 
 extern uint32_t pwm_freq; // in Hz
 extern uint32_t pwm_duty; // in %
-extern uint32_t pwm_volts // in mv
-
-
+extern uint32_t pwm_volt; // in mV
 
 void Pwm_Set(void);
+void Pwm_Monitor(void);
 
 
 #endif

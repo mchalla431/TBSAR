@@ -39,4 +39,11 @@ void Pwm_Set(void)
 
     // Set the match0 external option: enable Pwm
     Gpt1_Match0_eOption_Set(MAT_PIN_PWM);
+
+}
+
+void Pwm_Monitor(void)
+{
+    // Display all values in one line
+    printf("PWM: %lu Hz, %lu%%, %lu mV\n", pwm_freq, pwm_duty, pwm_volt);
 }
