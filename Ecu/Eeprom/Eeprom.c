@@ -95,22 +95,34 @@ void Eeprom_Bytes_Read(uint8_t adr, uint8_t *buf, int size)
 
 }
 
-void Eeprom_Monitor(uint8_t *buf, int size)
+void Eeprom_Monitor_Write(uint8_t *buf, int size)
 {
-	int i;
-	
-	uart_printf("[EEPROM] Data: ");
-	
-	for(i = 0; i < size; i++)
-	{
-		uart_printf("%d", buf[i]);
-		if(i < size - 1)  // Add space after each number except the last one
-		{
-			uart_printf(" ");
-		}
-	}
-	
-	uart_printf("\r\n");
+    int i;
+    uart_printf("[EEPROM WRITE] Data: ");
+    for(i = 0; i < size; i++)
+    {
+        uart_printf("%d", buf[i]);
+        if(i < size - 1)
+        {
+            uart_printf(" ");
+        }
+    }
+    uart_printf("\r\n");
+}
+
+void Eeprom_Monitor_Read(uint8_t *buf, int size)
+{
+    int i;
+    uart_printf("[EEPROM READ] Data: ");
+    for(i = 0; i < size; i++)
+    {
+        uart_printf("%d", buf[i]);
+        if(i < size - 1)
+        {
+            uart_printf(" ");
+        }
+    }
+    uart_printf("\r\n");
 }
 
 
