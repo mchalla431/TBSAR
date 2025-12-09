@@ -6,7 +6,6 @@
 
 
 // LCD Global Application Functions  
-void Lcd_Clear(void);                      // Clear entire display
 void Lcd_Set_Cursor(int row, int col);     // Set cursor at row (1-2), column (1-16)
 void lcd_printf(const char *format, ...);  // Printf-style formatted output
 

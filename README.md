@@ -2,19 +2,19 @@
 
 ## Overview
 
-TBSAR is an embedded software project for the **NXP LPC11C24** microcontroller (Cortex-M0, 32KB Flash, 8KB RAM), implementing a layered driver architecture with real-time task scheduling for control applications. The project features a clean separation between low-level MCU drivers, high-level ECU modules, and application-level task scheduling.
+TBSAR is a modular embedded software project for the **NXP LPC11C24** microcontroller (Cortex-M0, 32KB Flash, 8KB RAM). It implements a layered driver architecture with real-time task scheduling for control applications, and features a clean separation between low-level MCU drivers, high-level ECU modules, and application-level task scheduling.
 
-**✅ Hardware Tested & Verified**: Task scheduler with RGB LED blinking confirmed working on LPC11C24 hardware.
+**✅ Hardware Tested & Verified**: Task scheduler, RGB LED, and LCD display confirmed working on LPC11C24 hardware.
 
 ## 🎯 Key Features
 
 - **Real-Time Scheduler**: SysTick-based cooperative task scheduler (10/20/50/100ms periods) ✅ **Hardware Verified**
 - **Layered Architecture**: Three-tier design (App → ECU → MCU) with clean separation of concerns
 - **MCU Drivers**: Low-level hardware access (ADC, UART, GPIO, GPT, SPI, I2C, CAN, DIO)
-- **ECU Modules**: High-level features (RGB, Sensors, Monitor, DAC, EEPROM, User Keys)
+- **ECU Modules**: High-level features (RGB, Sensors, Monitor, DAC, EEPROM, User Keys, LCD)
 - **Simple Build System**: Single Makefile with arm-none-eabi-gcc toolchain
 - **ISP Programming**: Python-based tools for flashing via lpc21isp with proper reset control
-- **Printf Support**: UART-redirected printf via Monitor module for debugging
+- **Printf Support**: UART-redirected printf via Monitor module and LCD printf for debugging and display
 
 ## 📁 Project Structure
 
@@ -29,6 +29,7 @@ TBSAR/
 │   ├── Dac/              # Digital-to-Analog Converter control
 │   ├── Eeprom/           # EEPROM read/write operations
 │   ├── Monitor/          # UART printf functionality (uart_printf)
+│   ├── Lcd/              # LCD display functionality (lcd_printf)
 │   ├── Rgb/              # RGB LED control (RGB_RED, RGB_GREEN, RGB_BLUE, etc.)
 │   ├── Sensors/          # Analog sensor reading (voltage, temperature)
 │   └── Ukeys/            # 5-way user key handling (up/down/left/right/center)
@@ -40,23 +41,14 @@ TBSAR/
 │   ├── Gpt/              # General Purpose Timer (GPT0, GPT1 with match units)
 │   ├── I2c/              # I2C master/slave communication
 │   ├── Spi/              # SPI communication interface
-│   ├── Sys/              # System startup, clocks, IOCON, SYSCON
-│   │   ├── lpc11xx.h            # MCU register definitions (vendor header)
-│   │   ├── cr_startup_lpc11xx.c # Startup code and vector table
-│   │   ├── system_LPC11xx.c     # System clock initialization
-│   │   ├── Syscon.c/h           # System control (clock gating, resets)
-│   │   └── Iocon.c/h            # Pin configuration and multiplexing
+│   ├── Sys/              # System startup, clocks, IOCON, SYSCON, syscalls.c
 │   └── Uart/             # UART driver for serial communication
 │
 ├── build/                 # Build output directory (generated)
-│   ├── tbsar.elf         # Executable with debug symbols
-│   ├── tbsar.hex         # Intel HEX format for programming
-│   └── tbsar.bin         # Raw binary format
-│
 ├── Makefile              # Build system (arm-none-eabi-gcc)
 ├── lpc11c24.ld           # Linker script (memory layout)
-├── isp.py                # ISP exit script (DTR/RTS control)
-├── monitor.py            # Serial monitor for UART output
+├── isp.py                # ISP exit script (DTR/RTS control, uses /dev/ttyUSB1)
+├── monitor.py            # Serial monitor for UART output (uses /dev/ttyUSB1)
 └── *.drawio              # Architecture diagrams
 ```
 
@@ -73,7 +65,7 @@ TBSAR/
 **ECU Layer (`Ecu/`)**
 - High-level feature modules composing MCU drivers
 - User-friendly APIs abstracting hardware complexity
-- Examples: RGB LED control, sensor reading, user key handling, UART printf
+- Examples: RGB LED control, sensor reading, user key handling, UART printf, LCD display
 - Hardware-independent application logic
 
 **MCU Layer (`Mcu/`)**
@@ -81,16 +73,13 @@ TBSAR/
 - Direct register access and configuration
 - Hardware abstraction for portability
 - System startup, clock configuration, and IRQ handlers
+- **syscalls.c**: Provides minimal system call stubs for newlib (required for printf, malloc, etc.)
 
 ### Design Patterns & Conventions
 
 - **Config Split**: Each module has `Module_Config.c/.h` (register macros, low-level wrappers) and `Module.c/.h` (logic)
-  - Example: `Uart_Config.c` has register macros, `Uart.c` has `Uart_Transmit()` functions
-- **Instance Naming**: Hardware instances use numeric suffixes
-  - GPIO: `Gpio0_Pin_Set()`, `Gpio1_Pin_Set()`, `Gpio2_Pin_Set()`
-  - Timers: `Gpt0_*()`, `Gpt1_*()` with match units `Gpt1_Match0_*()`
-- **Function Naming**: Descriptive module-prefixed style: `Module_Action_Object()`
-  - Examples: `Rgb_Set()`, `Sensor_Vpot_Get()`, `Ukey_Center_State_Get()`
+- **Instance Naming**: Hardware instances use numeric suffixes (e.g., `Gpio0_Pin_Set()`, `Gpt1_Match0_*()`)
+- **Function Naming**: Descriptive module-prefixed style: `Module_Action_Object()`. All printf-style functions use lowercase: `uart_printf()`, `lcd_printf()`
 - **Include Simplification**: All module directories added to include path, use simple `#include "Module.h"`
 
 ## 🚀 Quick Start
@@ -105,56 +94,43 @@ TBSAR/
 ### Building the Project
 
 ```bash
-# Build project
-make
-
-# Clean and rebuild
-make clean && make
-
-# View available targets
-make help
+make            # Build all (ELF, HEX, BIN) and show memory usage
+make clean      # Remove build directory
+make flash      # Build and program via lpc21isp (uses /dev/ttyUSB1)
+make run        # Flash and start serial monitor
+make help       # Show available targets
 ```
 
 ### Flashing to Hardware
 
-The project uses `lpc21isp` with Python helper scripts for reliable programming:
-
 ```bash
-# Flash using lpc21isp
 make flash
-
 # Or use direct lpc21isp command
-sudo lpc21isp -control -hex build/tbsar.hex /dev/ttyUSB0 115200 12000
+sudo lpc21isp -control -hex build/tbsar.hex /dev/ttyUSB1 115200 12000
 python3 isp.py  # Release control lines
 ```
-
-**ISP Programming Process**:
-1. `lpc21isp -control` uses DTR (RESET) and RTS (ISP/bootloader enable) for automatic ISP entry
-2. Firmware is programmed to flash memory
-3. `isp.py` releases control lines (DTR/RTS) to allow MCU to run application
-4. Application starts automatically - LED begins blinking immediately
 
 ### Monitoring Serial Output
 
 ```bash
-# Monitor UART output (if using uart_printf in application)
 python3 monitor.py
-
 # Or use any serial terminal at 9600 baud
-screen /dev/ttyUSB0 9600
+screen /dev/ttyUSB1 9600
 ```
 
-### Development Workflow
-
-1. **Edit Code**: Modify task functions in `App/main.c`
-2. **Build**: `make clean && make`
-3. **Flash**: `make flash`
-4. **Test**: LED starts blinking automatically
-5. **Debug**: Use `uart_printf()` in tasks and monitor with `python3 monitor.py`
-
-
-
 ## 💡 Example Applications
+
+### LCD Display Example
+```c
+#include "Lcd.h"
+#include "Lcd_Config.h"
+
+int main(void) {
+    Lcd_Config();
+    lcd_printf("System OK!");
+    while(1);
+}
+```
 
 ### Current Demo: Task Scheduler with RGB LED ✅ **Hardware Tested**
 ```c
@@ -213,7 +189,7 @@ int main(void) {
 - **Red LED**: Port2.10 (GPIO2) ✅ Tested
 - **Green LED**: Port1.2 (GPIO1) ✅ Tested  
 - **Blue LED**: Port1.10 (GPIO1) - Ready for testing
-```
+````
 
 ### Printf Support via Monitor Module
 
@@ -334,6 +310,10 @@ make help       # Show available targets
 - UART0: CP2102 USB-UART (programming and printf output)
 - Baud: 115200 for ISP, configurable for application
 
+**LCD Display** (Ecu/Lcd):
+- Connected via GPIO pins
+- Functions: `lcd_printf()`, `Lcd_Config()`
+
 ## 📊 Memory Optimization ✅ **Real Hardware Results**
 
 The build system provides detailed memory analysis with **verified hardware results**:
@@ -401,6 +381,12 @@ Eeprom_Byte_Write(addr, data); // Write single byte
 uint8_t val = Eeprom_Byte_Read(addr);  // Read single byte
 ```
 
+### LCD Display (`Ecu/Lcd`)
+```c
+Lcd_Config();                   // Initialize LCD
+lcd_printf("Hello, World!");    // Printf to LCD
+```
+
 ## 📈 Extending the Project
 
 ### Adding New MCU Drivers
@@ -437,7 +423,7 @@ uint8_t val = Eeprom_Byte_Read(addr);  // Read single byte
 - **Permission Denied**: Add user to dialout group: `sudo usermod -a -G dialout $USER` (logout/login required)
 
 **Flash/Programming Issues**
-- **Device Not Found**: Check USB connection, verify /dev/ttyUSB0 exists
+- **Device Not Found**: Check USB connection, verify /dev/ttyUSB1 exists
 - **ISP Entry Failed**: 
   - Ensure lpc21isp has -control flag for automatic DTR/RTS
   - Try manual ISP: Hold ISP button, press Reset, release ISP, then run lpc21isp
@@ -454,6 +440,10 @@ uint8_t val = Eeprom_Byte_Read(addr);  // Read single byte
   - Initialize Monitor_Config() before uart_printf()
   - Connect to correct baud rate (9600 default)
   - Check UART TX pin connection
+- **LCD Not Displaying**: 
+  - Check Lcd_Config() is called in main()
+  - Verify GPIO pins for LCD are correctly connected
+  - Ensure lcd_printf() is used after configuration
 
 ### Debugging Techniques
 
@@ -502,7 +492,7 @@ void Scheduler_Task10ms(void) {
 
 ### Coding Conventions
 - **Naming**: `Module_Action_Object()` - descriptive and module-prefixed
-- **Config Split**: `Module_Config.c/.h` for registers, `Module.c/.h` for logic
+- **Config Split**: `Module_Config.c` for registers, `Module.c` for logic
 - **Includes**: Simplified paths via Makefile, use `#include "Module.h"`
 - **Constants**: `#define` in uppercase, enums for related constants
 

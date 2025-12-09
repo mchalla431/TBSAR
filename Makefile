@@ -60,7 +60,7 @@ $(BUILD_DIR)/%.o: %.c
 
 flash: $(BUILD_DIR)/$(TARGET).hex
 	@echo "🚀 Flashing via ISP..."
-	@sudo lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex /dev/ttyUSB0 115200 12000
+	@sudo lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex /dev/ttyUSB1 115200 12000
 	@echo "🚪 Releasing control lines and exiting ISP..."
 	@sleep 1
 	@python3 isp.py || true
