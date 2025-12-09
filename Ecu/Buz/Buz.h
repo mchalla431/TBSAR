@@ -6,5 +6,6 @@
 
 void Buz_On(void);
 void Buz_Off(void);
+void Buz_Monitor(void);
 
 #endif
