@@ -1,4 +1,6 @@
 #include "Uart.h"
+#include <stdarg.h>
+#include <stdio.h>
 
 /* UART Register Access Macros */
 #define UART_Get_TBuf_Status()		((UART_LSR & (1<<5))?1:0)
@@ -39,7 +41,7 @@ void Uart_Byte_Send(uint8_t dat)
 	Uart_Transmit_Buffer_Write(dat);
 }
 
-void Uart_String_Send(char *str)
+void Uart_String_Send(const char *str)
 {
 	// Add null pointer check for robustness
 	if (!str) return;
@@ -50,6 +52,7 @@ void Uart_String_Send(char *str)
 		str++;
 	}
 }
+
 
 uint8_t Uart_Byte_Receive(void)
 {
@@ -63,6 +66,19 @@ uint8_t Uart_Byte_Receive(void)
 	}
 
 	return rx_byte;
+}
+
+// Printf-style formatted output to UART
+void uart_printf(const char *format, ...)
+{
+	char buffer[128];  // Adjust size as needed for UART
+	va_list args;
+
+	va_start(args, format);
+	vsnprintf(buffer, sizeof(buffer), format, args);
+	va_end(args);
+
+	Uart_String_Send(buffer);
 }
 
 

@@ -7,7 +7,9 @@
 
 /* UART communication functions */
 void Uart_Byte_Send(uint8_t dat);
-void Uart_String_Send(char *str);
+void Uart_String_Send(const char *str);
 uint8_t Uart_Byte_Receive(void);
+
+void uart_printf(const char *format, ...);
 
 #endif

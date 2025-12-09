@@ -61,7 +61,7 @@ static void Lcd_Print_String(const char *str)
 }
 
 // Printf-style formatted output to LCD at current position
-void Lcd_Printf(const char *format, ...)
+void lcd_printf(const char *format, ...)
 {
 	char buffer[32];  // Buffer for formatted string (16x2 LCD max 32 chars)
 	va_list args;
