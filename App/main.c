@@ -1,3 +1,4 @@
+
 /**
  * @file main.c
  * @brief TBSAR Main Application
@@ -6,58 +7,39 @@
  */
 
 #include <stdint.h>
-#include "Scheduler.h"
+#include <stddef.h>
+#include "FreeRTOS.h"
+#include "task.h"
 #include "Buz_Config.h"
 
-/* =============================================================================
- * Scheduler Task: Every 10ms
- * ===========================================================================*/
-void Scheduler_10ms(void)
+
+
+/* Example FreeRTOS task */
+void vMainTask(void *pvParameters)
 {
-
-}
-
-/* =============================================================================
- * Scheduler Task: Every 20ms
- * ===========================================================================*/
-void Scheduler_20ms(void)
-{
-
-}
-
-/* =============================================================================
- * Scheduler Task: Every 50ms
- * ===========================================================================*/
-void Scheduler_50ms(void)
-{
-
-}
-
-/* =============================================================================
- * Scheduler Task: Every 100ms
- * ===========================================================================*/
-void Scheduler_100ms(void)
-{
-
+    for(;;)
+    {
+        // Main application loop
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
 }
 
 
 /* =============================================================================
  * Main Function
  * ===========================================================================*/
-int main(void) 
+
+int main(void)
 {
     /* Initialize hardware */
     Buz_Config();      /* on-board buzzer calm at startup */
-    
-   
-    /* Start scheduler (10ms base tick) */
-    Scheduler_Init();
-    
-    while(1) 
-    {
-        __asm volatile("wfi");  
-    }   
 
-    return 0;
+    /* Create main FreeRTOS task */
+    xTaskCreate(vMainTask, "MainTask", 128, NULL, 1, NULL);
+
+    /* Start FreeRTOS scheduler */
+    vTaskStartScheduler();
+
+    /* Should never reach here */
+    for(;;);
 }
