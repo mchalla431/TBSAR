@@ -19,12 +19,12 @@ def start_monitor():
     
     try:
         # Kill any interfering processes
-        os.system('sudo pkill -f ttyUSB1 2>/dev/null || true')
+        os.system('sudo pkill -f ttyUSB0 2>/dev/null || true')
         time.sleep(0.5)
         
         # Open serial connection
         ser = serial.Serial(
-            port='/dev/ttyUSB1',
+            port='/dev/ttyUSB0',
             baudrate=57600,
             bytesize=serial.EIGHTBITS,
             parity=serial.PARITY_NONE,

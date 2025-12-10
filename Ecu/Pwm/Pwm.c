@@ -1,4 +1,5 @@
 #include "Pwm.h"
+#include "Monitor.h"
 
 uint32_t pwm_freq =0; // in Hz
 uint32_t pwm_duty =0; // in %
@@ -45,5 +46,5 @@ void Pwm_Set(void)
 void Pwm_Monitor(void)
 {
     // Display all values in one line
-    printf("PWM: %lu Hz, %lu%%, %lu mV\n", pwm_freq, pwm_duty, pwm_volt);
+    uart_printf("PWM: %lu Hz, %lu%%, %lu mV\n", pwm_freq, pwm_duty, pwm_volt);
 }

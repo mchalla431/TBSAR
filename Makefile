@@ -11,7 +11,7 @@ LDFLAGS = -mcpu=$(MCU) -mthumb -mfloat-abi=soft -Wl,--gc-sections -specs=nano.sp
 
 INC_DIRS = -I./App \
 		   -I./Mcu/Sys -I./Mcu/Adc -I./Mcu/Can -I./Mcu/Dio -I./Mcu/Gpt -I./Mcu/I2c -I./Mcu/Sleep -I./Mcu/Spi -I./Mcu/Uart -I./Mcu/Wakeup \
-		   -I./Ecu/Buz -I./Ecu/Dac -I./Ecu/Eeprom -I./Ecu/Monitor -I./Ecu/Rgb -I./Ecu/Rotary -I./Ecu/Sensors -I./Ecu/Ukeys -I./Ecu/Lcd
+		   -I./Ecu/Buz -I./Ecu/Dac -I./Ecu/Eeprom -I./Ecu/Monitor -I./Ecu/Rgb -I./Ecu/Rotary -I./Ecu/Sensors -I./Ecu/Ukeys -I./Ecu/Lcd -I./Ecu/Pwm
 
 SOURCES = App/main.c App/Scheduler.c \
 		  Ecu/Buz/Buz.c Ecu/Buz/Buz_Config.c \
@@ -32,7 +32,8 @@ SOURCES = App/main.c App/Scheduler.c \
 		  Ecu/Rotary/Rotary.c Ecu/Rotary/Rotary_Config.c \
 		  Ecu/Sensors/Sensors.c Ecu/Sensors/Sensors_Config.c \
 		  Ecu/Ukeys/Ukeys.c Ecu/Ukeys/Ukeys_Config.c \
-		  Ecu/Lcd/Lcd.c Ecu/Lcd/Lcd_Config.c
+		Ecu/Lcd/Lcd.c Ecu/Lcd/Lcd_Config.c \
+		Ecu/Pwm/Pwm.c Ecu/Pwm/Pwm_Config.c
 OBJECTS = $(SOURCES:%.c=$(BUILD_DIR)/%.o)
 
 all: $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin size
@@ -60,7 +61,7 @@ $(BUILD_DIR)/%.o: %.c
 
 flash: $(BUILD_DIR)/$(TARGET).hex
 	@echo "🚀 Flashing via ISP..."
-	@sudo lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex /dev/ttyUSB1 115200 12000
+	@sudo lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex /dev/ttyUSB0 115200 12000
 	@echo "🚪 Releasing control lines and exiting ISP..."
 	@sleep 1
 	@python3 isp.py || true

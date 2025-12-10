@@ -13,7 +13,7 @@ def simple_isp_exit():
     
     try:
         # Open serial at ISP speed
-        ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=1)
+        ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
         
         # Release ISP mode (set RTS to deassert boot mode)
         ser.setRTS(False)  # Release boot mode
