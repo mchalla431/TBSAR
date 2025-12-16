@@ -14,8 +14,12 @@
 #include "Pwm_Config.h"
 #include "Pwm.h"
 
+#include "Ukeys_Config.h"
+#include "Ukeys.h"
+
 #include "Lcd_Config.h"
 #include "Lcd.h"
+
 
 /* =============================================================================
  * Scheduler Task: Every 10ms
@@ -46,23 +50,7 @@ void Scheduler_50ms(void)
  * ===========================================================================*/
 void Scheduler_100ms(void)
 {
-    static uint8_t sec_counter = 0;
-    static uint8_t duty = 10;
-    sec_counter++;
-    if (sec_counter >= 10) 
-    { // 10 x 100ms = 1s
-        sec_counter = 0;
-        duty += 10;
-        if (duty > 90) duty = 10;
-        pwm_duty = duty;
-        Pwm_Set();
-        Pwm_Monitor();
 
-        Lcd_Set_Cursor(1,1);
-        lcd_printf("PWM:%4luHz %3lu%%  ", pwm_freq, pwm_duty);
-        Lcd_Set_Cursor(2,1);
-        lcd_printf("Volt:%4lumV     ", pwm_volt);
-    }
 }
 
 
@@ -74,10 +62,8 @@ int main(void)
     /* Initialize hardware */
     Buz_Config();      /* on-board buzzer calm at startup */
     Monitor_Config(); /* UART monitor initialization */
-    Pwm_Config();     /* PWM hardware initialization */
+    Ukeys_Config();     /* Ukeys hardware initialization */
     Lcd_Config();     /* LCD hardware initialization */
-    pwm_freq = 1000; // 1kHz
-    Pwm_Set();
     
     
     /* Start scheduler (10ms base tick) */
