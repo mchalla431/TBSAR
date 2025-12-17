@@ -1,9 +1,35 @@
-# Simple Makefile for LPC11C24
+# Simple Makefile for LPC11C24 - Windows Compatible
 TARGET = tbsar
 BUILD_DIR = build
 CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 SIZE = arm-none-eabi-size
+
+# Create build directories
+$(shell if not exist $(BUILD_DIR) mkdir $(BUILD_DIR) 2>nul)
+$(shell if not exist $(BUILD_DIR)\App mkdir $(BUILD_DIR)\App 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu mkdir $(BUILD_DIR)\Ecu 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Buz mkdir $(BUILD_DIR)\Ecu\Buz 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Dac mkdir $(BUILD_DIR)\Ecu\Dac 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Eeprom mkdir $(BUILD_DIR)\Ecu\Eeprom 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Lcd mkdir $(BUILD_DIR)\Ecu\Lcd 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Monitor mkdir $(BUILD_DIR)\Ecu\Monitor 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Pwm mkdir $(BUILD_DIR)\Ecu\Pwm 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Rgb mkdir $(BUILD_DIR)\Ecu\Rgb 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Rotary mkdir $(BUILD_DIR)\Ecu\Rotary 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Sensors mkdir $(BUILD_DIR)\Ecu\Sensors 2>nul)
+$(shell if not exist $(BUILD_DIR)\Ecu\Ukeys mkdir $(BUILD_DIR)\Ecu\Ukeys 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu mkdir $(BUILD_DIR)\Mcu 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\Adc mkdir $(BUILD_DIR)\Mcu\Adc 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\Can mkdir $(BUILD_DIR)\Mcu\Can 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\Dio mkdir $(BUILD_DIR)\Mcu\Dio 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\Gpt mkdir $(BUILD_DIR)\Mcu\Gpt 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\I2c mkdir $(BUILD_DIR)\Mcu\I2c 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\Sleep mkdir $(BUILD_DIR)\Mcu\Sleep 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\Spi mkdir $(BUILD_DIR)\Mcu\Spi 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\Sys mkdir $(BUILD_DIR)\Mcu\Sys 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\Uart mkdir $(BUILD_DIR)\Mcu\Uart 2>nul)
+$(shell if not exist $(BUILD_DIR)\Mcu\Wakeup mkdir $(BUILD_DIR)\Mcu\Wakeup 2>nul)
 
 MCU = cortex-m0
 CFLAGS = -mcpu=$(MCU) -mthumb -mfloat-abi=soft -O2 -g3 -Wall -std=c99
@@ -56,15 +82,14 @@ size: $(BUILD_DIR)/$(TARGET).elf
 
 $(BUILD_DIR)/%.o: %.c
 	@echo "🔨 Compiling $<..."
-	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INC_DIRS) -c $< -o $@
 
 flash: $(BUILD_DIR)/$(TARGET).hex
 	@echo "🚀 Flashing via ISP..."
-	@sudo lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex /dev/ttyUSB0 115200 12000
+	@lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex COM5 115200 12000
 	@echo "🚪 Releasing control lines and exiting ISP..."
-	@sleep 1
-	@python3 isp.py || true
+	@timeout /t 1
+	@python isp.py || echo ISP script completed
 	@echo "✅ Flash complete - device should be running"
 
 output:
@@ -74,12 +99,12 @@ output:
 
 run: flash
 	@echo "🔄 Flash complete, starting monitor in 2 seconds..."
-	@sleep 2
+	@timeout /t 2
 	@$(MAKE) --no-print-directory output
 
 clean:
 	@echo "🧹 Cleaning build directory..."
-	rm -rf $(BUILD_DIR)
+	@if exist $(BUILD_DIR) rmdir /s /q $(BUILD_DIR)
 
 help:
 	@echo "📋 Available targets:"
