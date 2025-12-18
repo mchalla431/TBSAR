@@ -39,7 +39,7 @@ INC_DIRS = -I./App \
 		   -I./Mcu/Sys -I./Mcu/Adc -I./Mcu/Can -I./Mcu/Dio -I./Mcu/Gpt -I./Mcu/I2c -I./Mcu/Sleep -I./Mcu/Spi -I./Mcu/Uart -I./Mcu/Wakeup \
 		   -I./Ecu/Buz -I./Ecu/Dac -I./Ecu/Eeprom -I./Ecu/Monitor -I./Ecu/Rgb -I./Ecu/Rotary -I./Ecu/Sensors -I./Ecu/Ukeys -I./Ecu/Lcd -I./Ecu/Pwm
 
-SOURCES = App/main.c App/Scheduler.c \
+SOURCES = App/main.c App/App.c App/Scheduler.c \
 		  Ecu/Buz/Buz.c Ecu/Buz/Buz_Config.c \
 		  Ecu/Rgb/Rgb.c Ecu/Rgb/Rgb_Config.c \
 		  Mcu/Adc/Adc.c Mcu/Adc/Adc_Config.c \
@@ -86,7 +86,7 @@ $(BUILD_DIR)/%.o: %.c
 
 flash: $(BUILD_DIR)/$(TARGET).hex
 	@echo "🚀 Flashing via ISP..."
-	@lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex COM5 115200 12000
+	@lpc21isp -control -hex $(BUILD_DIR)/$(TARGET).hex COM3 115200 12000
 	@echo "🚪 Releasing control lines and exiting ISP..."
 	@timeout /t 1
 	@python isp.py || echo ISP script completed
